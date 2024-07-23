@@ -1,6 +1,8 @@
 import { Conversation } from '@/types/chat';
 
-export const updateConversation = (
+import localforage from 'localforage';
+
+export const updateConversation = async (
   updatedConversation: Conversation,
   allConversations: Conversation[],
 ) => {
@@ -12,8 +14,8 @@ export const updateConversation = (
     return c;
   });
 
-  saveConversation(updatedConversation);
-  saveConversations(updatedConversations);
+  await saveConversation(updatedConversation);
+  await saveConversations(updatedConversations);
 
   return {
     single: updatedConversation,
@@ -21,10 +23,18 @@ export const updateConversation = (
   };
 };
 
-export const saveConversation = (conversation: Conversation) => {
-  localStorage.setItem('selectedConversation', JSON.stringify(conversation));
+export const saveConversation = async (conversation: Conversation) => {
+  await localforage.setItem(
+    'selectedConversation',
+    JSON.stringify(conversation),
+  );
+  // localStorage.setItem('selectedConversation', JSON.stringify(conversation));
 };
 
-export const saveConversations = (conversations: Conversation[]) => {
-  localStorage.setItem('conversationHistory', JSON.stringify(conversations));
+export const saveConversations = async (conversations: Conversation[]) => {
+  // localStorage.setItem('conversationHistory', JSON.stringify(conversations));
+  await localforage.setItem(
+    'conversationHistory',
+    JSON.stringify(conversations),
+  );
 };

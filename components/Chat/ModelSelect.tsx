@@ -3,10 +3,11 @@ import { useContext } from 'react';
 
 import { useTranslation } from 'next-i18next';
 
-import {OpenAIModel, OpenAIModels} from '@/types/openai';
+import { OpenAIModel, OpenAIModels } from '@/types/openai';
 
 import HomeContext from '@/pages/api/home/home.context';
-import {promptsList} from "@/components/Chat/PromptsList";
+
+import { promptsList } from '@/components/Chat/PromptsList';
 
 export const ModelSelect = () => {
   const { t } = useTranslation('chat');
@@ -18,24 +19,32 @@ export const ModelSelect = () => {
   } = useContext(HomeContext);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if(selectedConversation && (defaultModelId || e.target.value)){
+    if (selectedConversation && (defaultModelId || e.target.value)) {
       const thisModel = models.find(
-          (model) => model.id === e.target.value,
-      ) as OpenAIModel
-      handleUpdateConversationAll(selectedConversation, [{
-        key: 'model',
-        value: thisModel,
-      }, {
-        key: 'prompt',
-        value: promptsList.find(prompt=>
-            prompt.id?.toLowerCase() === thisModel.name?.toLowerCase()
-        )?.content || "",
-      },{
-        key: 'promptState',
-        value: promptsList.find(prompt=>
-            prompt.id?.toLowerCase() === thisModel.name?.toLowerCase()
-        )?.controlState || 0,
-      }]);
+        (model) => model.id === e.target.value,
+      ) as OpenAIModel;
+      handleUpdateConversationAll(selectedConversation, [
+        {
+          key: 'model',
+          value: thisModel,
+        },
+        {
+          key: 'prompt',
+          value:
+            promptsList.find(
+              (prompt) =>
+                prompt.id?.toLowerCase() === thisModel.name?.toLowerCase(),
+            )?.content || '',
+        },
+        {
+          key: 'promptState',
+          value:
+            promptsList.find(
+              (prompt) =>
+                prompt.id?.toLowerCase() === thisModel.name?.toLowerCase(),
+            )?.controlState || 0,
+        },
+      ]);
     }
   };
 
@@ -45,24 +54,6 @@ export const ModelSelect = () => {
         {t('Model')}
       </label>
       <div className="w-full rounded-lg border border-neutral-200 bg-transparent pr-2 text-neutral-900 dark:border-neutral-600 dark:text-white">
-        {/*<select*/}
-        {/*  className="w-full bg-transparent p-2"*/}
-        {/*  placeholder={t('Select a model') || ''}*/}
-        {/*  value={selectedConversation?.model?.id || defaultModelId}*/}
-        {/*  onChange={handleChange}*/}
-        {/*>*/}
-        {/*  {models.map((model) => (*/}
-        {/*    <option*/}
-        {/*      key={model.id}*/}
-        {/*      value={model.id}*/}
-        {/*      className="dark:bg-[#343541] dark:text-white"*/}
-        {/*    >*/}
-        {/*      {model.id === defaultModelId*/}
-        {/*        ? `Default (${model.id})`*/}
-        {/*        : model.id}*/}
-        {/*    </option>*/}
-        {/*  ))}*/}
-        {/*</select>*/}
         <div className="w-full p-2">
           {selectedConversation?.model?.id || defaultModelId}
         </div>

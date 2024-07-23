@@ -20,14 +20,7 @@ export const ChatbarSettings = () => {
   const [isSettingDialogOpen, setIsSettingDialog] = useState<boolean>(false);
 
   const {
-    state: {
-      api,
-      apiKey,
-      lightMode,
-      serverSideApiKeyIsSet,
-      serverSidePluginKeysSet,
-      conversations,
-    },
+    state: { api, conversations },
     dispatch: homeDispatch,
   } = useContext(HomeContext);
 
@@ -59,7 +52,7 @@ export const ChatbarSettings = () => {
         onClick={() => setIsSettingDialog(true)}
       />
 
-        <QueryUrl api={api} onApiChange={handleApiChange} />
+      <QueryUrl api={api} onApiChange={handleApiChange} />
 
       {/*<Key apiKey={apiKey} onApiKeyChange={handleApiKeyChange} />*/}
 

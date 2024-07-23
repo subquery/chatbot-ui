@@ -12,6 +12,8 @@ import { Prompt } from '@/types/prompt';
 
 import { cleanConversationHistory } from './clean';
 
+import localforage from 'localforage';
+
 export function isExportFormatV1(obj: any): obj is ExportFormatV1 {
   return Array.isArray(obj);
 }
@@ -109,12 +111,14 @@ export const exportData = () => {
   URL.revokeObjectURL(url);
 };
 
-export const importData = (
+export const importData = async (
   data: SupportedExportFormats,
-): LatestExportFormat => {
+): Promise<LatestExportFormat> => {
   const { history, folders, prompts } = cleanData(data);
 
-  const oldConversations = localStorage.getItem('conversationHistory');
+  const oldConversations = await localforage.getItem<string>(
+    'conversationHistory',
+  );
   const oldConversationsParsed = oldConversations
     ? JSON.parse(oldConversations)
     : [];
@@ -126,14 +130,14 @@ export const importData = (
     (conversation, index, self) =>
       index === self.findIndex((c) => c.id === conversation.id),
   );
-  localStorage.setItem('conversationHistory', JSON.stringify(newHistory));
+  await localforage.setItem('conversationHistory', JSON.stringify(newHistory));
   if (newHistory.length > 0) {
-    localStorage.setItem(
+    await localforage.setItem(
       'selectedConversation',
       JSON.stringify(newHistory[newHistory.length - 1]),
     );
   } else {
-    localStorage.removeItem('selectedConversation');
+    await localforage.removeItem('selectedConversation');
   }
 
   const oldFolders = localStorage.getItem('folders');
