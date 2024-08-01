@@ -463,7 +463,7 @@ const Home = ({
       }}
     >
       <Head>
-        <title>LlamaEdge Chat</title>
+        <title>SubQuery Chat</title>
         <meta name="description" content="ChatGPT but better." />
         <meta
           name="viewport"
