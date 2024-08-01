@@ -469,7 +469,7 @@ const Home = ({
           name="viewport"
           content="height=device-height ,width=device-width, initial-scale=1, user-scalable=no"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="https://static.subquery.network/icon.png" />
       </Head>
       {selectedConversation && (
         <main
